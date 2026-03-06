@@ -116,7 +116,7 @@ Options:
 3. Login as regular user
 4. Send a message
 5. Check donations
-6. Login as admin (community@123 / admin@community123)
+
 7. Add/edit/delete leaders
 8. Update donation statuses
 9. View messages
@@ -131,11 +131,7 @@ Options:
 - Session stored in localStorage
 ```
 
-### Admin Login
-```
-Email: community@gmail.com
-Password: admin@community
-```
+
 
 ## 📊 Database Schema
 

@@ -10,28 +10,28 @@ const STATIC_LEADERS = [
         id: 'leader_1',
         name: 'Sarah Johnson',
         title: 'Community President',
-        photoURL: 'images/cp 1.jpeg', // Your actual photo file
+        photoURL: 'images/cp1.jpeg', // Your actual photo file
         description: 'Dedicated community leader with over 10 years of experience in community development and social initiatives.'
     },
     {
         id: 'leader_2',
         name: 'Michael Chen',
         title: 'Treasurer',
-        photoURL: 'images/cp 2 tressure.jpeg', // Your actual photo file
+        photoURL: 'images/cp2_treasurer.jpeg', // Your actual photo file
         description: 'Passionate about education and youth development, working to create opportunities for the next generation.'
     },
     {
         id: 'leader_3',
         name: 'Dr. Emily Rodriguez',
         title: 'Deputy Director',
-        photoURL: 'images/cp 3 deputy.jpeg', // Your actual photo file
+        photoURL: 'images/cp3_deputy.jpeg', // Your actual photo file
         description: 'Medical professional committed to improving community health through education and preventive care programs.'
     },
     {
         id: 'leader_4',
         name: 'David Thompson',
         title: 'Finance Secretary',
-        photoURL: 'images/cp 4.jpeg', // Your actual photo file
+        photoURL: 'images/cp4.jpeg', // Your actual photo file
         description: 'Experienced financial advisor ensuring transparent and sustainable management of community resources.'
     }
 ];

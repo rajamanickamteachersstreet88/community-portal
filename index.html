@@ -273,7 +273,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Title</th>
-                                    <th>Photo URL</th>
+                                    <th>Photo (Local File)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -356,9 +356,14 @@
                     <label for="leaderInputTitle">Title</label>
                     <input type="text" id="leaderInputTitle" required class="form-input">
                 </div>
+                <div class="form-group" style="display: none;">
+                    <label for="leaderInputPhoto">Photo (Local file used)</label>
+                    <input type="url" id="leaderInputPhoto" class="form-input" value="local">
+                </div>
                 <div class="form-group">
-                    <label for="leaderInputPhoto">Photo URL</label>
-                    <input type="url" id="leaderInputPhoto" required class="form-input">
+                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                        <strong>Note:</strong> Photos are stored locally in the 'images/' folder. Add your photo files there with names like 'leader1.jpg', 'leader2.jpg', etc.
+                    </p>
                 </div>
                 <div class="form-group full-width">
                     <label for="leaderInputDesc">Description</label>

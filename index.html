@@ -347,7 +347,7 @@
             <button class="modal-close" onclick="closeModal('leaderFormModal')">&times;</button>
             <h3 id="leaderFormTitle">Add New Leader</h3>
             <form id="leaderForm" class="form-grid">
-                <input type="hidden" id="leaderId">
+                <input type="hidden" id="leaderId" name="leaderId">
                 <div class="form-group">
                     <label for="leaderInputName">Name</label>
                     <input type="text" id="leaderInputName" required class="form-input">
@@ -358,7 +358,7 @@
                 </div>
                 <div class="form-group" style="display: none;">
                     <label for="leaderInputPhoto">Photo (Local file used)</label>
-                    <input type="url" id="leaderInputPhoto" class="form-input" value="local">
+                    <input type="url" id="leaderInputPhoto" name="leaderInputPhoto" class="form-input" value="local">
                 </div>
                 <div class="form-group">
                     <p style="font-size: 14px; color: #666; margin-bottom: 10px;">

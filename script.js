@@ -3,6 +3,39 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbxdOhyC90-EQiuwcGAsW5bJ
 const ADMIN_EMAIL = 'community@gmail.com';
 const ADMIN_PASSWORD = 'admin@community';
 
+// ===== STATIC LEADERS DATA =====
+// Add your own photos to the 'images/' folder and update these paths
+const STATIC_LEADERS = [
+    {
+        id: 'leader_1',
+        name: 'Sarah Johnson',
+        title: 'Community President',
+        photoURL: 'images/cp 1.jpeg', // Your actual photo file
+        description: 'Dedicated community leader with over 10 years of experience in community development and social initiatives.'
+    },
+    {
+        id: 'leader_2',
+        name: 'Michael Chen',
+        title: 'Treasurer',
+        photoURL: 'images/cp 2 tressure.jpeg', // Your actual photo file
+        description: 'Passionate about education and youth development, working to create opportunities for the next generation.'
+    },
+    {
+        id: 'leader_3',
+        name: 'Dr. Emily Rodriguez',
+        title: 'Deputy Director',
+        photoURL: 'images/cp 3 deputy.jpeg', // Your actual photo file
+        description: 'Medical professional committed to improving community health through education and preventive care programs.'
+    },
+    {
+        id: 'leader_4',
+        name: 'David Thompson',
+        title: 'Finance Secretary',
+        photoURL: 'images/cp 4.jpeg', // Your actual photo file
+        description: 'Experienced financial advisor ensuring transparent and sustainable management of community resources.'
+    }
+];
+
 let currentUser = null;
 let currentUserRole = null;
 
@@ -259,31 +292,71 @@ async function handleMessageSubmit(e) {
 // ===== LEADERS FUNCTIONS =====
 async function loadLeaders() {
     try {
+        // Try to get dynamic leaders from backend first
         const response = await callGAS('leaders/get', {});
 
-        if (response.success && response.leaders) {
-            const leadersGrid = document.getElementById('leadersGrid');
-            const statLeaders = document.getElementById('statLeaders');
+        let leadersToDisplay = STATIC_LEADERS; // Default to static leaders
 
-            if (leadersGrid) {
-                leadersGrid.innerHTML = response.leaders.map(leader => `
-                    <div class="leader-card" onclick="openLeaderModal('${leader.id}', '${leader.name}', '${leader.title}', '${leader.photoURL}', '${leader.description}')">
-                        <img src="${leader.photoURL}" alt="${leader.name}" class="leader-image" onerror="this.src='https://via.placeholder.com/300x250?text=${leader.name}'">
-                        <div class="leader-info">
-                            <h3>${leader.name}</h3>
-                            <p class="title">${leader.title}</p>
-                            <p>${leader.description.substring(0, 100)}...</p>
-                        </div>
+        if (response.success && response.leaders && response.leaders.length > 0) {
+            // Merge dynamic data with static photos
+            leadersToDisplay = response.leaders.map(dynamicLeader => {
+                // Find matching static leader by ID or create new one with static photo
+                const staticLeader = STATIC_LEADERS.find(sl => sl.id === dynamicLeader.id) ||
+                                   STATIC_LEADERS[response.leaders.indexOf(dynamicLeader) % STATIC_LEADERS.length];
+
+                return {
+                    id: dynamicLeader.id,
+                    name: dynamicLeader.name,
+                    title: dynamicLeader.title,
+                    photoURL: staticLeader ? staticLeader.photoURL : STATIC_LEADERS[0].photoURL,
+                    description: dynamicLeader.description
+                };
+            });
+        }
+
+        const leadersGrid = document.getElementById('leadersGrid');
+        const statLeaders = document.getElementById('statLeaders');
+
+        if (leadersGrid) {
+            leadersGrid.innerHTML = leadersToDisplay.map(leader => `
+                <div class="leader-card" onclick="openLeaderModal('${leader.id}', '${leader.name.replace(/'/g, "\\'")}', '${leader.title.replace(/'/g, "\\'")}', '${leader.photoURL}', '${leader.description.replace(/'/g, "\\'")}')">
+                    <img src="${leader.photoURL}" alt="${leader.name}" class="leader-image"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI2Y1ZjdmYSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BZGQgUGhvdG88L3RleHQ+PC9zdmc+'">
+                    <div class="leader-info">
+                        <h3>${leader.name}</h3>
+                        <p class="title">${leader.title}</p>
+                        <p>${leader.description.substring(0, 100)}${leader.description.length > 100 ? '...' : ''}</p>
                     </div>
-                `).join('');
-            }
+                </div>
+            `).join('');
+        }
 
-            if (statLeaders) {
-                statLeaders.textContent = response.leaders.length;
-            }
+        if (statLeaders) {
+            statLeaders.textContent = leadersToDisplay.length;
         }
     } catch (error) {
         console.error('Error loading leaders:', error);
+        // Fallback to static leaders only
+        const leadersGrid = document.getElementById('leadersGrid');
+        const statLeaders = document.getElementById('statLeaders');
+
+        if (leadersGrid) {
+            leadersGrid.innerHTML = STATIC_LEADERS.map(leader => `
+                <div class="leader-card" onclick="openLeaderModal('${leader.id}', '${leader.name.replace(/'/g, "\\'")}', '${leader.title.replace(/'/g, "\\'")}', '${leader.photoURL}', '${leader.description.replace(/'/g, "\\'")}')">
+                    <img src="${leader.photoURL}" alt="${leader.name}" class="leader-image"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI2Y1ZjdmYSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BZGQgUGhvdG88L3RleHQ+PC9zdmc+'">
+                    <div class="leader-info">
+                        <h3>${leader.name}</h3>
+                        <p class="title">${leader.title}</p>
+                        <p>${leader.description.substring(0, 100)}${leader.description.length > 100 ? '...' : ''}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        if (statLeaders) {
+            statLeaders.textContent = STATIC_LEADERS.length;
+        }
     }
 }
 
@@ -296,28 +369,68 @@ function openLeaderModal(id, name, title, photoURL, description) {
 }
 
 // Admin: Load leaders for management
+// Admin: Load leaders for management
 async function loadAdminLeaders() {
     try {
         const response = await callGAS('leaders/get', {});
 
-        if (response.success && response.leaders) {
-            const tableBody = document.getElementById('leadersTableBody');
-            tableBody.innerHTML = response.leaders.map(leader => `
-                <tr>
-                    <td>${leader.name}</td>
-                    <td>${leader.title}</td>
-                    <td style="max-width: 200px; word-break: break-all;">${leader.photoURL}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn action-edit" onclick="editLeader('${leader.id}', '${leader.name}', '${leader.title}', '${leader.photoURL}', '${leader.description}')">Edit</button>
-                            <button class="action-btn action-delete" onclick="deleteLeader('${leader.id}')">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+        let leadersToDisplay = STATIC_LEADERS; // Default to static leaders
+
+        if (response.success && response.leaders && response.leaders.length > 0) {
+            // Merge dynamic data with static photos
+            leadersToDisplay = response.leaders.map(dynamicLeader => {
+                const staticLeader = STATIC_LEADERS.find(sl => sl.id === dynamicLeader.id) ||
+                                   STATIC_LEADERS[response.leaders.indexOf(dynamicLeader) % STATIC_LEADERS.length];
+
+                return {
+                    id: dynamicLeader.id,
+                    name: dynamicLeader.name,
+                    title: dynamicLeader.title,
+                    photoURL: staticLeader ? staticLeader.photoURL : STATIC_LEADERS[0].photoURL,
+                    description: dynamicLeader.description
+                };
+            });
         }
+
+        const tableBody = document.getElementById('leadersTableBody');
+        tableBody.innerHTML = leadersToDisplay.map(leader => `
+            <tr>
+                <td>${leader.name}</td>
+                <td>${leader.title}</td>
+                <td style="max-width: 200px;">
+                    <img src="${leader.photoURL}" alt="${leader.name}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA1MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmNWY3ZmEiIHN0cm9rZT0iIzk5OTk5OSIgc3Ryb2tlLXdpdHRoPSIyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjOTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QWRkPC90ZXh0Pjwvc3ZnPg=='">
+                    <br><small style="color: #666;">${leader.photoURL.split('/').pop()}</small>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn action-edit" onclick="editLeader('${leader.id}', '${leader.name.replace(/'/g, "\\'")}', '${leader.title.replace(/'/g, "\\'")}', '${leader.photoURL}', '${leader.description.replace(/'/g, "\\'")}')">Edit</button>
+                        <button class="action-btn action-delete" onclick="deleteLeader('${leader.id}')">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
     } catch (error) {
         console.error('Error loading admin leaders:', error);
+        // Fallback to static leaders only
+        const tableBody = document.getElementById('leadersTableBody');
+        tableBody.innerHTML = STATIC_LEADERS.map(leader => `
+            <tr>
+                <td>${leader.name}</td>
+                <td>${leader.title}</td>
+                <td style="max-width: 200px;">
+                    <img src="${leader.photoURL}" alt="${leader.name}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA1MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmNWY3ZmEiIHN0cm9rZT0iIzk5OTk5OSIgc3Ryb2tlLXdpdHRoPSIyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjOTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QWRkPC90ZXh0Pjwvc3ZnPg=='">
+                    <br><small style="color: #666;">${leader.photoURL.split('/').pop()}</small>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn action-edit" onclick="editLeader('${leader.id}', '${leader.name.replace(/'/g, "\\'")}', '${leader.title.replace(/'/g, "\\'")}', '${leader.photoURL}', '${leader.description.replace(/'/g, "\\'")}')">Edit</button>
+                        <button class="action-btn action-delete" onclick="deleteLeader('${leader.id}')">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
     }
 }
 

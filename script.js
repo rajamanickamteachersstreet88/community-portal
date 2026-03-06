@@ -8,7 +8,7 @@ const ADMIN_PASSWORD = 'admin@community';
 const STATIC_LEADERS = [
     {
         id: 'leader_1',
-        name: 'Sarah Johnson',
+        name: 'Abrar',
         title: 'Community President',
         photoURL: 'cp1.jpeg', // Your actual photo file
         description: 'Dedicated community leader with over 10 years of experience in community development and social initiatives.'

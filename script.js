@@ -8,7 +8,7 @@ const ADMIN_PASSWORD = 'admin@community';
 const STATIC_LEADERS = [
     {
         id: 'leader_1',
-        name: 'Abrar',
+        name: 'Sarah Johnson',
         title: 'Community President',
         photoURL: 'cp1.jpeg', // Your actual photo file
         description: 'Dedicated community leader with over 10 years of experience in community development and social initiatives.'
@@ -295,15 +295,15 @@ async function loadLeaders() {
         // Try to get dynamic leaders from backend first
         const response = await callGAS('leaders/get', {});
 
-        let leadersToDisplay = STATIC_LEADERS; // Default to static leaders
+        let leadersToDisplay = []; // Start with empty
+        const leadersSection = document.getElementById('leadersSection');
 
+        // Choose data source: dynamic if available, otherwise static
         if (response.success && response.leaders && response.leaders.length > 0) {
             // Merge dynamic data with static photos
             leadersToDisplay = response.leaders.map(dynamicLeader => {
-                // Find matching static leader by ID or create new one with static photo
                 const staticLeader = STATIC_LEADERS.find(sl => sl.id === dynamicLeader.id) ||
                                    STATIC_LEADERS[response.leaders.indexOf(dynamicLeader) % STATIC_LEADERS.length];
-
                 return {
                     id: dynamicLeader.id,
                     name: dynamicLeader.name,
@@ -312,10 +312,20 @@ async function loadLeaders() {
                     description: dynamicLeader.description
                 };
             });
+        } else {
+            // fallback to static data when backend has none or fails
+            leadersToDisplay = STATIC_LEADERS.slice();
         }
 
         const leadersGrid = document.getElementById('leadersGrid');
-        const statLeaders = document.getElementById('statLeaders');
+        // const statLeaders = document.getElementById('statLeaders'); // removed as count not shown to user
+
+        // Show section only if there are leaders
+        if (leadersToDisplay.length > 0) {
+            if (leadersSection) leadersSection.style.display = 'block';
+        } else {
+            if (leadersSection) leadersSection.style.display = 'none';
+        }
 
         if (leadersGrid) {
             leadersGrid.innerHTML = leadersToDisplay.map(leader => `
@@ -331,32 +341,12 @@ async function loadLeaders() {
             `).join('');
         }
 
-        if (statLeaders) {
-            statLeaders.textContent = leadersToDisplay.length;
-        }
+
     } catch (error) {
         console.error('Error loading leaders:', error);
-        // Fallback to static leaders only
-        const leadersGrid = document.getElementById('leadersGrid');
-        const statLeaders = document.getElementById('statLeaders');
-
-        if (leadersGrid) {
-            leadersGrid.innerHTML = STATIC_LEADERS.map(leader => `
-                <div class="leader-card" onclick="openLeaderModal('${leader.id}', '${leader.name.replace(/'/g, "\\'")}', '${leader.title.replace(/'/g, "\\'")}', '${leader.photoURL}', '${leader.description.replace(/'/g, "\\'")}')">
-                    <img src="${leader.photoURL}" alt="${leader.name}" class="leader-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI2Y1ZjdmYSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BZGQgUGhvdG88L3RleHQ+PC9zdmc+'">
-                    <div class="leader-info">
-                        <h3>${leader.name}</h3>
-                        <p class="title">${leader.title}</p>
-                        <p>${leader.description.substring(0, 100)}${leader.description.length > 100 ? '...' : ''}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        if (statLeaders) {
-            statLeaders.textContent = STATIC_LEADERS.length;
-        }
+        // Hide section on error  
+        const leadersSection = document.getElementById('leadersSection');
+        if (leadersSection) leadersSection.style.display = 'none';
     }
 }
 
@@ -695,7 +685,7 @@ async function loadStats() {
             document.getElementById('statUsers').textContent = response.userCount || 0;
             document.getElementById('statDonations').textContent = response.donationCount || 0;
             document.getElementById('statMessages').textContent = response.messageCount || 0;
-            document.getElementById('statLeaders').textContent = response.leaderCount || 0;
+            // leaders count intentionally not displayed on user page
         }
     } catch (error) {
         console.error('Error loading stats:', error);
@@ -714,7 +704,7 @@ async function loadAdminDashboard() {
 
         if (response.success) {
             document.getElementById('adminStatUsers').textContent = response.userCount || 0;
-            document.getElementById('adminStatLeaders').textContent = response.leaderCount || 0;
+            document.getElementById('adminStatLeaders').textContent = response.leaderCount || 0; // admin still sees count
             document.getElementById('adminStatMessages').textContent = response.messageCount || 0;
             document.getElementById('adminStatDonations').textContent = response.donationCount || 0;
         }

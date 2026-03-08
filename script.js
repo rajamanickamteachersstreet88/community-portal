@@ -25,7 +25,8 @@ const STATIC_LEADERS = [
         name: 'Lokesh',
         title: 'Secretary',
         photoURL: 'secretary.jpeg', // Your actual photo file
-        description: ''
+        description: 'அனைவருக்கும் காலை வணக்கம்.... இன்று மாலை (08-03-2026) அன்று சரியாக 3pm மணி அளவில் ராஜமாணிக்கம் ஆசிரியர் தெரு சங்க மாதாந்திர கூட்டம் சுரேந்தர் சற்குணம் அவரது இல்லத்தில் நடைபெற உள்ளதால் அனைவரும் தவறாமல் கலந்து கொள்ளுமாறு கேட்டுக்கொள்கிறோம்...
+- - சங்க நிர்வாகிகள்'
     },
     {
         id: 'leader_4',
@@ -46,6 +47,20 @@ const STATIC_LEADERS = [
         name: 'Abdul Kalam',
         title: 'jooin Secretary',
         photoURL: 'kalam.jpeg', // Your actual photo file
+        description: ''
+    },
+    {
+        id: 'leader_7',
+        name: 'Basker',
+        title: 'Vice President',
+        photoURL: 'basker.jpeg', // Your actual photo file
+        description: ''
+    },
+    {
+        id: 'leader_8',
+        name: 'Abrar A',
+        title: 'Website Handler',
+        photoURL: 'abrar.jpeg', // Your actual photo file
         description: ''
     }
 ];

@@ -8,31 +8,45 @@ const ADMIN_PASSWORD = 'admin@community';
 const STATIC_LEADERS = [
     {
         id: 'leader_1',
-        name: 'Sarah Johnson',
-        title: 'Community President',
+        name: 'Arivarasan',
+        title: 'Head',
         photoURL: 'cp1.jpeg', // Your actual photo file
-        description: 'Dedicated community leader with over 10 years of experience in community development and social initiatives.'
+        description: ''
     },
     {
         id: 'leader_2',
-        name: 'Michael Chen',
-        title: 'Treasurer',
-        photoURL: 'cp2_treasurer.jpeg', // Your actual photo file
-        description: 'Passionate about education and youth development, working to create opportunities for the next generation.'
+        name: 'Suren',
+        title: 'Deputy Secretary',
+        photoURL: 'suren.jpeg', // Your actual photo file
+        description: ''
     },
     {
         id: 'leader_3',
-        name: 'Dr. Emily Rodriguez',
-        title: 'Deputy Director',
-        photoURL: 'cp3_deputy.jpeg', // Your actual photo file
-        description: 'Medical professional committed to improving community health through education and preventive care programs.'
+        name: 'Lokesh',
+        title: 'Secretary',
+        photoURL: 'secretary.jpeg', // Your actual photo file
+        description: ''
     },
     {
         id: 'leader_4',
-        name: 'David Thompson',
-        title: 'Finance Secretary',
+        name: 'Vasanth',
+        title: 'Deputy Treasure',
         photoURL: 'cp4.jpeg', // Your actual photo file
-        description: 'Experienced financial advisor ensuring transparent and sustainable management of community resources.'
+        description: ''
+    },
+    {
+        id: 'leader_5',
+        name: 'Imtiyaz',
+        title: 'Treasure',
+        photoURL: 'cp2_treasurer.jpeg', // Your actual photo file
+        description: ''
+    },
+    {
+        id: 'leader_6',
+        name: 'Abdul Kalam',
+        title: 'jooin Secretary',
+        photoURL: 'kalam.jpeg', // Your actual photo file
+        description: ''
     }
 ];
 

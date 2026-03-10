@@ -8,53 +8,53 @@ const ADMIN_PASSWORD = 'admin@community';
 const STATIC_LEADERS = [
     {
         id: 'leader_1',
-        name: 'Arivarasan',
-        title: 'Head',
+        name: 'P Jayakumar',
+        title: 'President',
         photoURL: 'cp1.jpeg', // Your actual photo file
         description: ''
     },
     {
         id: 'leader_2',
-        name: 'Suren',
-        title: 'Deputy Secretary',
-        photoURL: 'suren.jpeg', // Your actual photo file
+        name: 'G.Basker',
+        title: 'Vice President',
+        photoURL: 'basker.jpeg', // Your actual photo file
         description: ''
     },
     {
         id: 'leader_3',
-        name: 'Lokesh',
+        name: 'Logendran R',
         title: 'Secretary',
         photoURL: 'secretary.jpeg', // Your actual photo file
         description: 'அனைவருக்கும் காலை வணக்கம்.... இன்று மாலை (08-03-2026) அன்று சரியாக 3pm மணி அளவில் ராஜமாணிக்கம் ஆசிரியர் தெரு சங்க மாதாந்திர கூட்டம் சுரேந்தர் சற்குணம் அவரது இல்லத்தில் நடைபெற உள்ளதால் அனைவரும் தவறாமல் கலந்து கொள்ளுமாறு கேட்டுக்கொள்கிறோம்..'
     },
     {
         id: 'leader_4',
-        name: 'Vasanth',
-        title: 'Deputy Treasure',
-        photoURL: 'cp4.jpeg', // Your actual photo file
+        name: 'Surendar .S',
+        title: 'Deputy Secretary',
+        photoURL: 'suren.jpeg', // Your actual photo file
         description: ''
     },
     {
         id: 'leader_5',
-        name: 'Imtiyaz',
+        name: 'A.Abdul Kalam',
+        title: 'joint Secretary',
+        photoURL: 'kalam.jpeg', // Your actual photo file
+        description: ''
+    },
+    {
+        id: 'leader_6',
+        name: 'S.Imtiyaz',
         title: 'Treasure',
         photoURL: 'cp2_treasurer.jpeg', // Your actual photo file
         description: ''
     },
     {
-        id: 'leader_6',
-        name: 'Abdul Kalam',
-        title: 'jooin Secretary',
-        photoURL: 'kalam.jpeg', // Your actual photo file
-        description: ''
-    },
-    {
         id: 'leader_7',
-        name: 'Basker',
-        title: 'Vice President',
-        photoURL: 'basker.jpeg', // Your actual photo file
+        name: 'R.Vasanth',
+        title: 'Deputy Treasure',
+        photoURL: 'cp4.jpeg', // Your actual photo file
         description: ''
-    },
+    },    
     {
         id: 'leader_8',
         name: 'Abrar A',
